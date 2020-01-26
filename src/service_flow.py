@@ -16,9 +16,9 @@ from generate_visualisation import *
 
 # TODO
 def generate_visualisation():
-    a,b = format_data.format_data()
-    c,d = generate_referal_data.generate_referal_data(a, b)
-    e,f = generate_visualisation.generate_visualisation(a, b, c, d)
+    all_services = format_data.format_data()
+    c,d = generate_referal_data.generate_referal_data(all_services)
+    e,f = generate_visualisation.generate_visualisation(all_services c, d)
     return
 
 # TODO
