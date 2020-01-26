@@ -20,15 +20,13 @@ def get_api_key():
     file1.close()
     return api_key
 
-# TODO
+# TODO Generate referals from GPs to hospital
 def generate_referal_data(all_services):
+    referals_list = list()
     api_key = get_api_key()
 
     for postcode in all_services:
-        source = re.sub(" ", "%20", postcode)
-        print(source)
-        input()
-        #source = "BS20%206AQ" #Formatted postcode
+        source = re.sub(" ", "%20", postcode) # Formatted postcode
 
         # Find nearest hospital
         res = urllib.request.urlopen("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + source + "&destinations=BS1%203NU|BS10%205NB&key=" + api_key).read()
@@ -36,12 +34,25 @@ def generate_referal_data(all_services):
         d1 = data["rows"][0]["elements"][0]["distance"]["value"] #BS1 3NU
         d2 = data["rows"][0]["elements"][1]["distance"]["value"] #BS10 5NB
 
-    print(d1)
-    print(d2)
-    return None
+        if d1 > d2:
+            dest = "BS1 3NU"
+        else:
+            dest =  "BS10 5NB"
+
+        # Add referall data if not 0
+        for diagnosis in all_services[postcode]["diagnoses"]:
+            if str(all_services[postcode]["diagnoses"][diagnosis]) != "0":
+                referals_list.append([postcode, dest, diagnosis, all_services[postcode]["diagnoses"][diagnosis]])
+
+    return referals_list
 
 # TODO skeleton
 if __name__ == "__main__":
     all_services = format_data()
-    referals = generate_referal_data(all_services)
-    print(referals)
+    referals_list = generate_referal_data(all_services)
+    print(referals_list)
+
+    # Write to csv
+    with open('referrals_list.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(referals_list)

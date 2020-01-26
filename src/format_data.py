@@ -60,8 +60,6 @@ def format_data():
     all_services = add_gp_data(all_services)
     all_services = add_hospital_data(all_services)
     all_services = read_diagnosis(all_services)
-
-    print(all_services)
     return all_services
 
 # TODO skeleton
