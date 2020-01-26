@@ -41,12 +41,27 @@ def add_hospital_data(all_services):
 
     return all_services
 
-# TODO add diagnoses data
+#  read diagnoses data
+def read_diagnosis(all_services):
+    with open('../docs/data_sources/gp_referral_data.csv', 'r') as csvfile:
+        diagnosis_reader = csv.reader(csvfile, delimiter = ',', quotechar = '"')
+
+        postcode_list = next(diagnosis_reader)
+
+        for postcode in diagnosis_reader:
+            for i in range(1,len(postcode)-1):
+                all_services[postcode_list[i]]["diagnoses"][postcode[0]] = postcode[i]
+
+    return all_services
+
+#  format data
 def format_data():
     all_services = dict()
     all_services = add_gp_data(all_services)
     all_services = add_hospital_data(all_services)
+    all_services = read_diagnosis(all_services)
 
+    print(all_services)
     return all_services
 
 # TODO skeleton
