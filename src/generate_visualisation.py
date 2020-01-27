@@ -11,7 +11,7 @@ __author__ = 'B Wainwright & D Jones'
 # TODO Imports
 
 # TODO
-def generate_visualisation(all_services, referals_list):
+def generate_visualisation(all_services, referrals_list):
     return
 
 # TODO skeleton

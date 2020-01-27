@@ -10,15 +10,15 @@ __version__ = '1.0'
 __author__ = 'B Wainwright & D Jones'
 
 from format_data import *
-from generate_referal_data import *
+from generate_referral_data import *
 from generate_visualisation import *
 
 # Formats data from prespecified files, generates visualisation of the data
 def create_vis():
     all_services = format_data()
-    all_services, referals_list = generate_referal_data(all_services)
-    generate_visualisation(all_services, referals_list)
-    return all_services, referals_list
+    all_services, referrals_list = generate_referral_data(all_services)
+    generate_visualisation(all_services, referrals_list)
+    return all_services, referrals_list
 
 # Test module by running 'service_flow.py'
 if __name__ == "__main__":

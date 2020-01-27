@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-""" generate_referal_data
-        - Creates the referal data between services from diagnosis data
+""" generate_referral_data
+        - Creates the referral data between services from diagnosis data
 """
 
 __version__ = '1.0'
@@ -19,9 +19,9 @@ def get_api_key():
     file1.close()
     return api_key
 
-# Generate referals list from GPs to hospital
-def generate_referal_data(all_services):
-    referals_list = list()
+# Generate referrals list from GPs to hospital
+def generate_referral_data(all_services):
+    referrals_list = list()
     api_key = get_api_key()
 
     for postcode in all_services:
@@ -42,17 +42,17 @@ def generate_referal_data(all_services):
         # Add referral data if not 0
         for diagnosis in all_services[postcode]["diagnoses"]:
             if str(all_services[postcode]["diagnoses"][diagnosis]) != "0":
-                referals_list.append([postcode, dest, diagnosis, all_services[postcode]["diagnoses"][diagnosis]])
+                referrals_list.append([postcode, dest, diagnosis, all_services[postcode]["diagnoses"][diagnosis]])
 
-    return all_services, referals_list
+    return all_services, referrals_list
 
-# Test module by running 'python generate_referal_data.py'
+# Test module by running 'python generate_referral_data.py'
 if __name__ == "__main__":
     all_services = format_data()
-    all_services, referals_list = generate_referal_data(all_services)
-    print(referals_list)
+    all_services, referrals_list = generate_referral_data(all_services)
+    print(referrals_list)
 
     # Write to csv
     with open('referrals_list.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerows(referals_list)
+        writer.writerows(referrals_list)
