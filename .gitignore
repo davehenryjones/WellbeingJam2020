@@ -2,3 +2,5 @@
 .DS_Store
 src/api_key.txt
 src/__pycache__
+src/vis.html
+docs/data_sources/bristol_map.jpg

@@ -6,25 +6,26 @@
             the visualisation
 """
 
-__version__ = '0.1'
+__version__ = '1.0'
 __author__ = 'B Wainwright & D Jones'
 
-# TODO Imports
 from format_data import *
 from generate_referal_data import *
 from generate_visualisation import *
 
-# TODO
-def generate_visualisation():
-    all_services = format_data.format_data()
-    c,d = generate_referal_data.generate_referal_data(all_services)
-    e,f = generate_visualisation.generate_visualisation(all_services c, d)
-    return
+# Formats data from prespecified files, generates visualisation of the data
+def create_vis():
+    all_services = format_data()
+    all_services, referals_list = generate_referal_data(all_services)
+    generate_visualisation(all_services, referals_list)
+    return all_services, referals_list
 
-# TODO
-def update_visualisation():
-    return
-
-# TODO skeleton
+# Test module by running 'service_flow.py'
 if __name__ == "__main__":
-    generate_visualisation()
+    a, b = create_vis()
+
+    print("\n\n---ALL SERVICES (NODES)---")
+    print(a)
+
+    print("\n\n---REFERRALS (EDGES)---")
+    print(b)

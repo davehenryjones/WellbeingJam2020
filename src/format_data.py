@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
 """ format_data
-        - chop the data from input files to internal format
+        - Converts the data from input files to internal format
 """
 
-__version__ = '0.1'
+__version__ = '1.0'
 __author__ = 'B Wainwright & D Jones'
 
 import csv
 
-# Read from bristol_gps
+# Add data from bristol_gps
 def add_gp_data(all_services):
     with open('../docs/data_sources/bristol_gps.csv', 'r') as csvfile:
         gp_reader = csv.reader(csvfile, delimiter = ',', quotechar = '"')
@@ -25,7 +25,7 @@ def add_gp_data(all_services):
 
     return all_services
 
-# Read from bristol_hospitals
+# Add data from bristol_hospitals
 def add_hospital_data(all_services):
     with open('../docs/data_sources/bristol_hospitals.csv', 'r') as csvfile:
         hospital_reader = csv.reader(csvfile, delimiter = ',', quotechar = '"')
@@ -41,8 +41,8 @@ def add_hospital_data(all_services):
 
     return all_services
 
-#  read diagnoses data
-def read_diagnosis(all_services):
+# Add diagnoses data
+def add_diagnosis(all_services):
     with open('../docs/data_sources/gp_referral_data.csv', 'r') as csvfile:
         diagnosis_reader = csv.reader(csvfile, delimiter = ',', quotechar = '"')
 
@@ -54,14 +54,15 @@ def read_diagnosis(all_services):
 
     return all_services
 
-#  format data
+# Create graph nodes from service data
 def format_data():
     all_services = dict()
     all_services = add_gp_data(all_services)
     all_services = add_hospital_data(all_services)
-    all_services = read_diagnosis(all_services)
+    all_services = add_diagnosis(all_services)
     return all_services
 
-# TODO skeleton
+# Test module by running 'python format_data.py'
 if __name__ == "__main__":
     a = format_data()
+    print(a)
