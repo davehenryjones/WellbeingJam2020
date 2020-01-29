@@ -8,6 +8,7 @@ __version__ = '1.0'
 __author__ = 'B Wainwright & D Jones'
 
 import csv
+import json
 
 # Add data from bristol_gps
 def add_gp_data(all_services):
@@ -50,7 +51,8 @@ def add_diagnosis(all_services):
 
         for postcode in diagnosis_reader:
             for i in range(1,len(postcode)-1):
-                all_services[postcode_list[i]]["diagnoses"][postcode[0]] = postcode[i]
+                if postcode[i] != '0':
+                    all_services[postcode_list[i]]["diagnoses"][postcode[0]] = postcode[i]
 
     return all_services
 
@@ -60,6 +62,11 @@ def format_data():
     all_services = add_gp_data(all_services)
     all_services = add_hospital_data(all_services)
     all_services = add_diagnosis(all_services)
+
+    # Write to .json
+    with open('services_list.json', 'w') as fp:
+        json.dump(all_services, fp)
+
     return all_services
 
 # Test module by running 'python format_data.py'
