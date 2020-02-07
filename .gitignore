@@ -1,6 +1,5 @@
 .idea
 .DS_Store
-src/api_key.txt
-src/__pycache__
-src/vis.html
+src/server_side/api_key.txt
+src/server_side/python_scripts/__pycache__
 docs/data_sources/bristol_map.jpg

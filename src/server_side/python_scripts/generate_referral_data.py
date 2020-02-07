@@ -14,7 +14,7 @@ import re
 
 # Get the API Key from the file
 def get_api_key():
-    file1 = open("api_key.txt","r")
+    file1 = open("../api_key.txt","r")
     api_key = file1.readline()
     file1.close()
     return api_key
