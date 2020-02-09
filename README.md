@@ -8,9 +8,13 @@ This software takes in data files about GPs and hospitals in Bristol, then outpu
 
 > Note: Currently, only the data is formatted correctly. See schema below.
 
-### Data Schema
+### Data Flow
 
-Our 'format_data.py' & 'generate_referal_data.py' files convert '.csv' data to our internal format for the visualisation. Therefore, a developer can simply edit these files to attain the correct data structure as outlined below.
+- File upload to DB (python or .js)
+- DB stores: service data (nodes), referral data (edges) & extra data on services (node details)
+- Data injected from DB inot d3.js to create vis
+
+> Note: The following is an outdated storage method
 
 all_services :: {POSTCODE: {
                   "name": NAME,
