@@ -118,6 +118,7 @@ function defineTypes() {
     let types = {
         html : "application/xhtml+xml",
         css  : "text/css",
+        csv  : "text/csv",
         js   : "application/javascript",
         mjs  : "application/javascript", // for ES6 modules
         png  : "image/png",
