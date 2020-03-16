@@ -9,13 +9,16 @@ function load_vis_edges(svg, grid_ref) {
   var x2s = [];
   var y2s = [];
   var ts = [];
+
   var promise = new Promise (function (resolve, reject) {
     return d3.csv("/js/referrals_list_combined.csv", function(data) {
-      x1s.push(grid_ref[data.source][0]);
-      y1s.push(grid_ref[data.source][1]);
-      x2s.push(grid_ref[data.dest][0]);
-      y2s.push(grid_ref[data.dest][1]);
-      ts.push(data.referrals / 100);
+      for (let i = 0; i < data.length; i++) {
+        x1s.push(grid_ref[data[i].source][0]);
+        y1s.push(grid_ref[data[i].source][1]);
+        x2s.push(grid_ref[data[i].dest][0]);
+        y2s.push(grid_ref[data[i].dest][1]);
+        ts.push(data[i].referrals / 100);
+      };
       resolve();
     });
   });
@@ -53,11 +56,14 @@ function load_vis_nodes(svg, grid_ref) {
 
   var promise = new Promise (function (resolve, reject) {
     return d3.csv("/js/services_list.csv", function(data) {
-      services_location.push(data.location);
-      services_x.push(grid_ref[data.location][0]);
-      services_y.push(grid_ref[data.location][1]);
-      services_name.push(data.name);
-      services_appointments.push(data.appointments / 500);
+      for (let i = 0; i < data.length; i++) {
+        services_location.push(data[i].location);
+        services_x.push(grid_ref[data[i].location][0]);
+        services_y.push(grid_ref[data[i].location][1]);
+        services_name.push(data[i].name);
+        services_appointments.push(data[i].appointments / 500);
+      }
+
       resolve();
     });
   });
@@ -89,7 +95,9 @@ function load_vis_nodes(svg, grid_ref) {
 function load_grid_ref() {
   var grid_ref = {};
   d3.csv("/js/postcode_xy.csv", function(data) {
-    grid_ref[data.postcode] = [data.x, data.y];
+    for (let i = 0; i < data.length; i++) {
+      grid_ref[data[i].postcode] = [data[i].x, data[i].y];
+    };
   });
 
   return grid_ref;
@@ -136,12 +144,34 @@ function create_canvas(width, height) {
 // Manage workflow
 window.onload = function() {
 
+    // Load Data Vis from data
     var svg = create_canvas(750, 750);
-
     var grid_ref = load_grid_ref();
     var referrals_edges = load_vis_edges(svg, grid_ref);
     var services_nodes = load_vis_nodes(svg, grid_ref);
 
+    // initialize the map on the "map" div with a given center and zoom
+    var mymap = L.map('mapid', {
+        center: [51.455, -2.599],
+        zoom: 13
+    });
 
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: '<ACCESS TOKEN HERE>'
+    }).addTo(mymap);
+
+    var circle = L.circle([51.455, -2.599], {
+      color: 'none',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 500
+    }).addTo(mymap);
+
+    var polyline = L.polyline([[51.455, -2.599],[51,-2]], {color: 'red'}).addTo(mymap);
 
 };
