@@ -7,7 +7,7 @@ export function load_vis_nodes(svg, grid_ref) {
   var services_appointments = [];
 
   var promise = new Promise (function (resolve, reject) {
-    return d3.csv("/js/services_list.csv", function(data) {
+    return d3.csv("/resources/services_list.csv", function(data) {
       for (let i = 0; i < data.length; i++) {
         services_location.push(data[i].location);
         services_x.push(grid_ref[data[i].location][0]);
