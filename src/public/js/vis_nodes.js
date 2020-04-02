@@ -78,5 +78,5 @@ export function load_vis_capacity(svg, grid_ref) {
       console.log("Error Loading Capacity");
     });
 
-  return [services_location, services_x, services_y, services_name, services_appointments];
+  return [services_location, services_x, services_y, services_name, services_capacity];
 };
