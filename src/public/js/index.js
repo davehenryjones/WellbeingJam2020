@@ -6,7 +6,8 @@ import {load_vis_edges} from '/js/vis_edges.js';
 // Loads postcode to co-ordinate data
 function load_grid_ref() {
   var grid_ref = {};
-  d3.csv("/resources/postcode_ne.csv", function(data) {
+  //d3.csv("/resources/postcode_ne.csv", function(data) {
+  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/postcode_ne.csv", function(data) {
     for (let i = 0; i < data.length; i++) {
       grid_ref[data[i].postcode] = [data[i].north, data[i].east];
     };
