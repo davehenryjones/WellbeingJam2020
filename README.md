@@ -1,48 +1,16 @@
 # WellbeingJam2020
 
-A visualisation to map the flow of patients between different health services in Bristol
+A visualisation to map the flow of patients between different health services in Bristol. Visit https://davehenryjones.github.io/pave/ to see it in action.
 
-#### Latest Release
+> NOTE: We have updated the use case to reflect the current Covid-19 pandemic. We are now focusing on mapping capacity vs admissions in such services.
+
+>NOTE: The data used is purely for illustrative purposes and does not currently reflect real values for capacity and admission data.
+
+#### Latest Release - v0.1.0
 
   - Displays local services in correct position on map
-  - Size of circle is proportional to the number of patients who used the service
-  - Lines between services indicate referrals between services
-  - Thickness of the lines is proportional to the number of referrals
+  - Size of red circle is proportional to the number of patients who used the service
+  - Size of blue circle is proportional to a dummy value for the capacity of that service
 
-> ![Zoomed Out Map](docs/resources/map_1.png)
-> Zoomed out map with data plotted
-
-<br>
-
-> ![Zoomed In Map](docs/resources/map_2.png)
-> Zoomed in map with data plotted
-
-
-### Usage
-
-#### Apache2 Server
-
-The Apache2 Server is used to allow the reading of .csv & .json files into d3.js. Therefore it must be downloaded to run the application on a local machine.
-
-> Ubuntu Instructions (Mac & Windows coming soon!)
-
-- Download Apache2 with `sudo apt update && apt install apache2`
-- Test that this has worked by typing `localhost` into your web browser
-
-#### Running the application
-
-- To run the website move the copy all the source code from `src/public/` into `/var/www/html`. You will need root privelages to do this.
-- Got to `localhost` in your web browser to see the website.
-
-
-### Developmers Guide
-
-#### Releases & Versioning Semantics
-
-vX.Y.Z such as v0.1.0 as the intial release. Based on the [ASDF Standard](https://asdf-standard.readthedocs.io/en/stable/versioning.html).
-
-> - X : Major Release i.e. major change that reduces or removes backwards compatability e.g. a new data schema
-> - Y : Minor Release i.e. new functionality added, major bug fixes
-> - Z : Patch i.e. small change to documentation or codebase, minor bug fixes
-
-Accompanying documentation for each release will follow [this guide](https://rollout.io/blog/best-practices-when-versioning-a-release/) from the Rollout Blog.
+> ![Zoomed Out Map](docs/resources/map3.png)
+> Dummy capacity vs admission data (for illustrative purposes only)
