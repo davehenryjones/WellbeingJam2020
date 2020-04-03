@@ -6,10 +6,30 @@
 
 The Apache2 Server is used to allow the reading of .csv & .json files into d3.js. Therefore it must be downloaded to run the application on a local machine.
 
-> Ubuntu Instructions (Mac & Windows coming soon!)
+**Ubuntu Instructions (Mac coming soon!)**
 
 - Download Apache2 with `sudo apt update && apt install apache2`
 - Test that this has worked by typing `localhost` into your web browser
+
+**Windows Instructions**
+
+- Download Apache2 from [Apache Lounge](https://www.apachelounge.com/download/).
+    - Select: Apache x.x.xx Win64 link
+- After downloaded, unzip the file httpd-x.x.xx-Win64-VC15.zip into C:/
+
+>_To Run in Command_
+>- Run CMD as administrator
+>- cd \Apache24\bin
+>- httpd.exe
+
+>_To Add as Service_
+>- Run CMD as administrator
+>- cd \Apache24\bin
+>- httpd.exe -k install
+>- Start > "Services" > Run Apache2
+
+To test server running go to web browser and type `localhost`, should display "It Works".
+
 
 #### Running the application
 
