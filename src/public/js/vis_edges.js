@@ -7,7 +7,8 @@ export function load_vis_edges(svg, grid_ref) {
   var ts = [];
 
   var promise = new Promise (function (resolve, reject) {
-    return d3.csv("/resources/referrals_list_combined.csv", function(data) {
+    //return d3.csv("/resources/referrals_list_combined.csv", function(data) {
+    return d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/referrals_list_combined.csv", function(data) {
       for (let i = 0; i < data.length; i++) {
         x1s.push(grid_ref[data[i].source][0]);
         y1s.push(grid_ref[data[i].source][1]);
