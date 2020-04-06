@@ -41,6 +41,7 @@ window.onload = function() {
 
     var promise = new Promise (function (resolve, reject) {
         services_capacity = load_vis_capacity(mymap,grid_ref);
+        resolve();
     });
 
     promise

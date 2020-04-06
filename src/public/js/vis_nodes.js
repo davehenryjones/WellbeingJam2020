@@ -15,7 +15,7 @@ export function load_vis_nodes(svg, grid_ref) {
         services_y.push(grid_ref[data[i].location][1]);
         services_name.push(data[i].name);
         services_appointments.push(data[i].appointments / 500);
-      }
+      };
       resolve();
     });
   });
@@ -57,7 +57,7 @@ export function load_vis_capacity(svg, grid_ref) {
         services_y.push(grid_ref[data[i].location][1]);
         services_name.push(data[i].name);
         services_capacity.push(data[i].dummy_capacity / 500);
-      }
+      };
       resolve();
     });
   });
@@ -80,3 +80,46 @@ export function load_vis_capacity(svg, grid_ref) {
 
   return [services_location, services_x, services_y, services_name, services_capacity];
 };
+
+
+// TODO Load data from a csv to create nodes
+// export function load_vis_nodes_auto(svg, grid_ref, csv_path) {
+//   var services = [];
+//
+//   var promise = new Promise (function (resolve, reject) {
+//     //return d3.csv(csv_path, function(data) {
+//     return d3.csv(csv_path, function(data) {
+//       Object.keys(data[0]).forEach(function (column) {
+//         services.push({
+//           key: column,
+//           value: []
+//         });
+//       });
+//
+//       for (let i = 0; i < data.length; i++) {
+//         for (let j = 0; j < Object.keys(services).length; j++) {
+//           services[j].push(data[i][j]);
+//         };
+//       };
+//       resolve();
+//     });
+//   });
+//
+//   promise
+//     .then(function() {
+//       // for (let i = 0; i < services.[0].length; i++) {
+//       //   var circle = L.circle([services_x[i], services_y[i]], {
+//       //       color: 'none',
+//       //       fillColor: '#ff7e7e',
+//       //       fillOpacity: 0.8,
+//       //       radius: services_appointments[i] * 25
+//       //     }).addTo(svg);
+//       // };
+//       console.log("Work in progress")
+//     })
+//     .catch(function() {
+//       console.log("Error Loading Nodes");
+//     });
+//
+//   return [services_location, services_x, services_y, services_name, services_appointments];
+// };
