@@ -14,7 +14,7 @@ export function load_vis_nodes(svg, grid_ref) {
         services_x.push(grid_ref[data[i].location][0]);
         services_y.push(grid_ref[data[i].location][1]);
         services_name.push(data[i].name);
-        services_appointments.push(data[i].appointments / 500);
+        services_appointments.push(data[i].appointments);
       };
       resolve();
     });
@@ -23,12 +23,22 @@ export function load_vis_nodes(svg, grid_ref) {
   promise
     .then(function() {
       for (let i = 0;i<services_x.length;i++) {
+        // Draw node
         var circle = L.circle([services_x[i], services_y[i]], {
             color: 'none',
             fillColor: '#ff7e7e',
             fillOpacity: 0.8,
-            radius: services_appointments[i] * 25
+            radius: services_appointments[i] / 20
           }).addTo(svg);
+
+        // Add extra information popup
+        circle.on('mouseover', function (event) {
+          var info_popup = L.popup()
+           .setLatLng(event.latlng)
+           .setContent('Location: ' + services_location[i] + '<br>Name: ' + services_name[i] + '<br>Appointments: ' + services_appointments[i])
+           .openOn(svg);
+          });
+
       };
 
     })
