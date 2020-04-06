@@ -22,14 +22,14 @@ export function load_vis_edges(svg, grid_ref) {
 
   promise
     .then(function() {
-        for (let i = 0; i < x1s.length; i++) {
-          var polyline = L.polyline([[x1s[i], y1s[i]],[x2s[i], y2s[i]]], {
-            color: '#00ffff',
-            opacity: 0.8,
-            weight: ts[i] / 5
-          }).addTo(svg);
-        };
-      })
+      for (let i = 0; i < x1s.length; i++) {
+        var polyline = L.polyline([[x1s[i], y1s[i]],[x2s[i], y2s[i]]], {
+          color: '#00ffff',
+          opacity: 0.8,
+          weight: ts[i] / 5
+        }).addTo(svg);
+      };
+    })
     .catch(function() {
       console.log("Error Loading Edges");
     });
