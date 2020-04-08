@@ -25,9 +25,10 @@ export function load_vis_nodes(svg, grid_ref) {
       for (let i = 0;i<services_x.length;i++) {
         // Draw node
         var circle = L.circle([services_x[i], services_y[i]], {
-            color: 'none',
-            fillColor: '#ff7e7e',
-            fillOpacity: 0.8,
+            color: 'black',
+            weight: '0.5',
+            fillColor: '#00a99d',
+            fillOpacity: 0.7,
             radius: services_appointments[i] / 20
           }).addTo(svg);
 
@@ -76,9 +77,10 @@ export function load_vis_capacity(svg, grid_ref) {
     .then(function() {
       for (let i = 0;i<services_x.length;i++) {
         var circle = L.circle([services_x[i], services_y[i]], {
-            color: 'none',
-            fillColor: '#3ba0ff',
-            fillOpacity: 0.8,
+            color: 'black',
+            weight: '0.5',
+            fillColor: '#f15a24',
+            fillOpacity: 0.7,
             radius: services_capacity[i] * 25
           }).addTo(svg);
       };
