@@ -38,5 +38,7 @@ window.onload = function() {
     var grid_ref = load_grid_ref();
     var services_nodes;
     services_nodes = load_data_from_default(grid_ref);
-    setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes);}, 3000);
+    console.log(services_nodes);
+    setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes.yesterday);}, 3000);
+    setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes.today);}, 7000);
 };

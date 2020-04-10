@@ -8,6 +8,10 @@ export function load_data_from_default(grid_ref) {
   var services_capacity = [];
   var services_metadata = [];
 
+  // Duplicate appointments & capacity for test
+  var a2 = [];
+  var c2 = [];
+
   d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_list.csv", function(data) {
 
     // Get column headers
@@ -26,6 +30,8 @@ export function load_data_from_default(grid_ref) {
       services_name.push(data[i].name);
       services_appointments.push(data[i].appointments);
 
+      a2.push(parseInt(data[i].appointments) + 25);
+
       // metadata saving
       var extra_data = [];
       for (let j = 0; j < extra_columns.length; j++) {
@@ -38,15 +44,28 @@ export function load_data_from_default(grid_ref) {
   d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_dummy_capacity.csv", function(data) {
     for (let i = 0; i < data.length; i++) {
       services_capacity.push(data[i].dummy_capacity);
+
+      c2.push(parseInt(data[i].dummy_capacity) + 50);
     };
   });
 
-  return { "location": services_location,
+  return {"yesterday": {
+           "location": services_location,
            "x": services_x,
            "y": services_y,
            "name": services_name,
            "appointments": services_appointments,
            "capacity": services_capacity,
            "metadata": services_metadata
+          },
+          "today": {
+            "location": services_location,
+            "x": services_x,
+            "y": services_y,
+            "name": services_name,
+            "appointments": a2,
+            "capacity": c2,
+            "metadata": services_metadata
+          }
          };
 };
