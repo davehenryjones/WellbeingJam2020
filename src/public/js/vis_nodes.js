@@ -20,11 +20,23 @@ export function load_vis_nodes(svg, grid_ref, services_nodes) {
         radius: services_nodes.appointments[i] / 20
     }).addTo(svg);
 
+    // Create string from metadata
+    var metadata_string = "";
+    for (let j = 0; j < services_nodes.metadata[i].length; j++) {
+      metadata_string = metadata_string + "<br> + "
+        + services_nodes.metadata[i][j][0] + ": "
+        + services_nodes.metadata[i][j][1];
+    };
+
     // Add extra information popup
     circle_usage.on('mouseover', function (event) {
       var info_popup = L.popup()
        .setLatLng(event.latlng)
-       .setContent('Location: ' + services_nodes.location[i] + '<br>Name: ' + services_nodes.name[i] + '<br>Appointments: ' + services_nodes.appointments[i] + '<br>Capacity: ' + services_nodes.capacity[i])
+       .setContent('<b>Location:</b> ' + services_nodes.location[i]
+          + '<br><b>Name:</b> ' + services_nodes.name[i]
+          + '<br><b>Appointments:</b> ' + services_nodes.appointments[i]
+          + '<br><b>Capacity:</b> ' + services_nodes.capacity[i]
+          + '<br><b>Metadata:</b> ' + metadata_string)
        .openOn(svg);
       });
 
