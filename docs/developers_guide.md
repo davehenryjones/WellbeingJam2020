@@ -63,3 +63,11 @@ vX.Y.Z such as v0.1.0 as the intial release. Based on the [ASDF Standard](https:
 > - Z : Patch i.e. small change to documentation or codebase, minor bug fixes
 
 Accompanying documentation for each release will follow [this guide](https://rollout.io/blog/best-practices-when-versioning-a-release/) from the Rollout Blog.
+
+
+##Accessibility
+#Colorblindness
+It is part of PAVE's core belief that health issues affect us all. As such, we believe in "accessiblitity" and inclusion by design. One of the ways we want to go about doing this is making sure that those living with colourblindness are able to use PAVE without difficulty. As a way of doing this, we encourage designers to contrast the following two hex colours in the continued design of the application:
+
+"#FFC107"
+"#1E88E5"
