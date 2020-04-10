@@ -1,6 +1,6 @@
 "use strict";
 
-import {load_vis_nodes, load_vis_capacity} from '/js/vis_nodes.js';
+import {load_vis_nodes} from '/js/vis_nodes.js';
 import {load_data_from_default} from '/js/data_input_handler.js';
 
 // Loads postcode to co-ordinate data
@@ -36,7 +36,6 @@ window.onload = function() {
 
     // Load Data Vis from data
     var grid_ref = load_grid_ref();
-    //var services_capacity;
     var services_nodes;
     services_nodes = load_data_from_default(grid_ref);
     setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes);}, 3000);
