@@ -1,5 +1,14 @@
-// Load data from csvs to variable
+// Load data from preselected csvs to variable
 export function load_data_from_default(grid_ref) {
+  return [
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
+  ];
+}
+
+// Load date from specified file
+function load_data_from_file(grid_ref, data_src) {
   var services_location = [];
   var services_x = [];
   var services_y = [];
@@ -8,7 +17,8 @@ export function load_data_from_default(grid_ref) {
   var services_capacity = [];
   var services_metadata = [];
 
-  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_list.csv", function(data) {
+
+  d3.csv(data_src, function(data) {
 
     // Get column headers
     var extra_columns = Object.keys(data[0]);
@@ -17,6 +27,7 @@ export function load_data_from_default(grid_ref) {
     extra_columns.splice(extra_columns.indexOf("location",),1);
     extra_columns.splice(extra_columns.indexOf("name",),1);
     extra_columns.splice(extra_columns.indexOf("appointments",),1);
+    extra_columns.splice(extra_columns.indexOf("capacity",),1);
 
     // Save data
     for (let i = 0; i < data.length; i++) {
@@ -25,6 +36,7 @@ export function load_data_from_default(grid_ref) {
       services_y.push(grid_ref[data[i].location][1]);
       services_name.push(data[i].name);
       services_appointments.push(data[i].appointments);
+      services_capacity.push(data[i].capacity);
 
       // metadata saving
       var extra_data = [];
@@ -35,13 +47,8 @@ export function load_data_from_default(grid_ref) {
     };
   });
 
-  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_dummy_capacity.csv", function(data) {
-    for (let i = 0; i < data.length; i++) {
-      services_capacity.push(data[i].dummy_capacity);
-    };
-  });
-
-  return { "location": services_location,
+  return {
+           "location": services_location,
            "x": services_x,
            "y": services_y,
            "name": services_name,
