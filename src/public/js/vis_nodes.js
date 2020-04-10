@@ -7,7 +7,7 @@ export function load_vis_nodes(svg, services_nodes) {
     var circle_capacity = L.circle([services_nodes.x[i], services_nodes.y[i]], {
         color: 'black',
         weight: '0.5',
-        fillColor: '#f15a24',
+        fillColor: '#1E88E5',
         fillOpacity: 0.7,
         radius: services_nodes.capacity[i] / 20
     }).addTo(svg);
@@ -16,7 +16,7 @@ export function load_vis_nodes(svg, services_nodes) {
     var circle_usage = L.circle([services_nodes.x[i], services_nodes.y[i]], {
         color: 'black',
         weight: '0.5',
-        fillColor: '#00a99d',
+        fillColor: '#FFC107',
         fillOpacity: 0.7,
         radius: services_nodes.appointments[i] / 20
     }).addTo(svg);
