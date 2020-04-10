@@ -25,20 +25,38 @@ window.onload = function() {
     });
 
     // Load map of Bristol
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    var earth = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       maxZoom: 18,
       id: 'mapbox/streets-v11',
       tileSize: 512,
       zoomOffset: -1,
       accessToken: 'pk.eyJ1IjoicGF2ZS1oZWFsdGgiLCJhIjoiY2s3dWQxZHUzMTZlYTNncXR1OHB2NTBkYiJ9.7mf8ut1FJpHCFzcsy7qiDA'
-    }).addTo(mymap);
+    });
+    earth.addTo(mymap);
 
     // Load Data Vis from data
     var grid_ref = load_grid_ref();
     var services_nodes;
     services_nodes = load_data_from_default(grid_ref);
     console.log(services_nodes);
-    setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes.yesterday);}, 3000);
-    setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes.today);}, 7000);
+
+    setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes.cacaaeda);}, 3000);
+
+    setTimeout(function() {
+      mymap.eachLayer(function (layer) {
+        mymap.removeLayer(layer);
+      });
+      earth.addTo(mymap);
+      load_vis_nodes(mymap, grid_ref, services_nodes.cacaafab);
+    }, 6000);
+
+    setTimeout(function() {
+      mymap.eachLayer(function (layer) {
+        mymap.removeLayer(layer);
+      });
+      earth.addTo(mymap);
+      load_vis_nodes(mymap, grid_ref, services_nodes.cacaafac);
+    }, 9000);
+
 };

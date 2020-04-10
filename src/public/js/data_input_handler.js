@@ -1,5 +1,14 @@
-// Load data from csvs to variable
+// Load data from preselected csvs to variable
 export function load_data_from_default(grid_ref) {
+  return {
+    "cacaaeda": load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
+    "cacaafab": load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
+    "cacaafac": load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
+  };
+}
+
+// Load date from specified file
+function load_data_from_file(grid_ref, data_src) {
   var services_location = [];
   var services_x = [];
   var services_y = [];
@@ -8,11 +17,8 @@ export function load_data_from_default(grid_ref) {
   var services_capacity = [];
   var services_metadata = [];
 
-  // Duplicate appointments & capacity for test
-  var a2 = [];
-  var c2 = [];
 
-  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_list.csv", function(data) {
+  d3.csv(data_src, function(data) {
 
     // Get column headers
     var extra_columns = Object.keys(data[0]);
@@ -21,6 +27,7 @@ export function load_data_from_default(grid_ref) {
     extra_columns.splice(extra_columns.indexOf("location",),1);
     extra_columns.splice(extra_columns.indexOf("name",),1);
     extra_columns.splice(extra_columns.indexOf("appointments",),1);
+    extra_columns.splice(extra_columns.indexOf("capacity",),1);
 
     // Save data
     for (let i = 0; i < data.length; i++) {
@@ -29,8 +36,7 @@ export function load_data_from_default(grid_ref) {
       services_y.push(grid_ref[data[i].location][1]);
       services_name.push(data[i].name);
       services_appointments.push(data[i].appointments);
-
-      a2.push(parseInt(data[i].appointments) + 25);
+      services_capacity.push(data[i].capacity);
 
       // metadata saving
       var extra_data = [];
@@ -41,15 +47,7 @@ export function load_data_from_default(grid_ref) {
     };
   });
 
-  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_dummy_capacity.csv", function(data) {
-    for (let i = 0; i < data.length; i++) {
-      services_capacity.push(data[i].dummy_capacity);
-
-      c2.push(parseInt(data[i].dummy_capacity) + 50);
-    };
-  });
-
-  return {"yesterday": {
+  return {
            "location": services_location,
            "x": services_x,
            "y": services_y,
@@ -57,15 +55,5 @@ export function load_data_from_default(grid_ref) {
            "appointments": services_appointments,
            "capacity": services_capacity,
            "metadata": services_metadata
-          },
-          "today": {
-            "location": services_location,
-            "x": services_x,
-            "y": services_y,
-            "name": services_name,
-            "appointments": a2,
-            "capacity": c2,
-            "metadata": services_metadata
-          }
          };
 };

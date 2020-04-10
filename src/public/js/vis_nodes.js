@@ -1,5 +1,6 @@
 // Load data from csv to create nodes
 export function load_vis_nodes(svg, grid_ref, services_nodes) {
+  console.log(services_nodes);
 
   for (let i = 0; i < services_nodes.location.length; i++) {
     // Draw capacity
