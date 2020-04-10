@@ -1,10 +1,10 @@
 // Load data from preselected csvs to variable
 export function load_data_from_default(grid_ref) {
-  return {
-    "cacaaeda": load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
-    "cacaafab": load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
-    "cacaafac": load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
-  };
+  return [
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
+  ];
 }
 
 // Load date from specified file
