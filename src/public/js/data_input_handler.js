@@ -1,14 +1,14 @@
 // Load data from preselected csvs to variable
-export function load_data_from_default(grid_ref) {
+export function load_data_from_default() {
   return [
-    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
-    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
-    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
+    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
+    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
+    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
   ];
 }
 
 // Load date from specified file
-function load_data_from_file(grid_ref, data_src) {
+function load_data_from_file(data_src) {
   var services_location = [];
   var services_x = [];
   var services_y = [];
@@ -16,7 +16,6 @@ function load_data_from_file(grid_ref, data_src) {
   var services_appointments = [];
   var services_capacity = [];
   var services_metadata = [];
-
 
   d3.csv(data_src, async function(data) {
 
@@ -32,8 +31,6 @@ function load_data_from_file(grid_ref, data_src) {
     // Save data
     for (let i = 0; i < data.length; i++) {
       services_location.push(data[i].location);
-      // services_x.push(grid_ref[data[i].location][0]);
-      // services_y.push(grid_ref[data[i].location][1]);
       services_name.push(data[i].name);
       services_appointments.push(data[i].appointments);
       services_capacity.push(data[i].capacity);

@@ -9,18 +9,6 @@ var mymap;
 var earth;
 var services_nodes;
 
-// Loads postcode to co-ordinate data
-function load_grid_ref() {
-  var grid_ref = {};
-  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/postcode_ne.csv", function(data) {
-    for (let i = 0; i < data.length; i++) {
-      grid_ref[data[i].postcode] = [data[i].north, data[i].east];
-    };
-  });
-
-  return grid_ref;
-};
-
 // Manage workflow
 window.onload = function() {
 
@@ -42,8 +30,7 @@ window.onload = function() {
     earth.addTo(mymap);
 
     // Load Data Vis from data
-    var grid_ref = load_grid_ref();
-    services_nodes = load_data_from_default(grid_ref);
+    services_nodes = load_data_from_default();
     setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
 };
 
