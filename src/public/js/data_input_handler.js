@@ -18,7 +18,7 @@ function load_data_from_file(grid_ref, data_src) {
   var services_metadata = [];
 
 
-  d3.csv(data_src, function(data) {
+  d3.csv(data_src, async function(data) {
 
     // Get column headers
     var extra_columns = Object.keys(data[0]);
@@ -32,8 +32,8 @@ function load_data_from_file(grid_ref, data_src) {
     // Save data
     for (let i = 0; i < data.length; i++) {
       services_location.push(data[i].location);
-      services_x.push(grid_ref[data[i].location][0]);
-      services_y.push(grid_ref[data[i].location][1]);
+      // services_x.push(grid_ref[data[i].location][0]);
+      // services_y.push(grid_ref[data[i].location][1]);
       services_name.push(data[i].name);
       services_appointments.push(data[i].appointments);
       services_capacity.push(data[i].capacity);
@@ -44,6 +44,12 @@ function load_data_from_file(grid_ref, data_src) {
         extra_data.push([extra_columns[j], data[i][extra_columns[j]]]);
       };
       services_metadata.push(extra_data);
+
+      // Get co-ordinates
+      var api_address = ("http://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
+      var api_data = await get_coords(api_address);
+      services_x.push(api_data.result.latitude);
+      services_y.push(api_data.result.longitude);
     };
   });
 
@@ -56,4 +62,10 @@ function load_data_from_file(grid_ref, data_src) {
            "capacity": services_capacity,
            "metadata": services_metadata
          };
+};
+
+async function get_coords(api_address) {
+  let response = await fetch (api_address);
+  let data = await response.json();
+  return data;
 };
