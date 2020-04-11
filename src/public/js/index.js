@@ -75,5 +75,5 @@ dataset_upload.onchange = async function () {
     mymap.removeLayer(layer);
   });
   earth.addTo(mymap);
-  load_vis_nodes(mymap, services_nodes[0]);
+  setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
 };
