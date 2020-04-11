@@ -1,10 +1,11 @@
 "use strict";
 
 import {load_vis_nodes} from '/js/vis_nodes.js';
-import {load_data_from_default} from '/js/data_input_handler.js';
+import {load_data_from_default, load_data_from_user} from '/js/data_input_handler.js';
 
 // Global variables
 var slider = document.getElementById("daypicker");
+var dataset_upload = document.getElementById("dataset_upload");
 var mymap;
 var earth;
 var services_nodes;
@@ -34,6 +35,25 @@ window.onload = function() {
     setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
 };
 
+// Load all data from csv files
+async function load_csv_files() {
+  var services = [];
+
+  for (let i = 0; i < dataset_upload.files.length; i++) {
+    var reader = new FileReader();
+    var file = dataset_upload.files[i];
+
+    reader.onload = async function() {
+      var service = await load_data_from_user(reader.result);
+      services.push(service);
+    };
+    reader.onerror = error => reject(error)
+    reader.readAsText(file);
+  };
+
+  return services;
+};
+
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
   mymap.eachLayer(function (layer) {
@@ -41,4 +61,19 @@ slider.oninput = function() {
   });
   earth.addTo(mymap);
   load_vis_nodes(mymap, services_nodes[this.value]);
-}
+};
+
+// File Upload handler
+dataset_upload.onchange = async function () {
+  services_nodes = [];
+
+  // Load files into services_nodes
+  services_nodes = await load_csv_files();
+
+  // Redraw map
+  mymap.eachLayer(function (layer) {
+    mymap.removeLayer(layer);
+  });
+  earth.addTo(mymap);
+  load_vis_nodes(mymap, services_nodes[0]);
+};
