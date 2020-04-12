@@ -12,6 +12,8 @@ By default the page loads with dummy data that we have created. To use your own 
 
 > NOTE: When you select a file to use it remains on your device. All processing of data is done on your device. We do not collect or store any data uploaded to the visualisation.
 
+> NOTE Due to a technical issue, you can currently only upload one file. We are working to fix this so that multiple files can be uploaded and displayed along the timeline.
+
 ### File Upload Requirements
 
 Files must be uploaded in the '.csv' format. The first row must be the column headings. The column headings must include:
