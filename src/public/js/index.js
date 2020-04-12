@@ -45,13 +45,14 @@ async function load_csv_files() {
 
     reader.onload = async function() {
       var service = await load_data_from_user(reader.result);
+      console.log(service);
       services.push(service);
     };
     reader.onerror = error => reject(error)
     reader.readAsText(file);
   };
 
-  return services;
+  services_nodes = services;
 };
 
 // Update the current slider value (each time you drag the slider handle)
@@ -68,12 +69,12 @@ dataset_upload.onchange = async function () {
   services_nodes = [];
 
   // Load files into services_nodes
-  services_nodes = await load_csv_files();
+  await load_csv_files();
 
   // Redraw map
   mymap.eachLayer(function (layer) {
     mymap.removeLayer(layer);
   });
   earth.addTo(mymap);
-  setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
+  setTimeout(function() {console.log(services_nodes); load_vis_nodes(mymap, services_nodes[0]);}, 3000);
 };
