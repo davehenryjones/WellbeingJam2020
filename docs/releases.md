@@ -2,8 +2,8 @@
 
 At present, PAVE has four planned version releases, subject to change based on user need and usage intent. We intend to develop this with as much agility as possible. This is an initial roadmap, changes will come.
 
-##Version v0.0.0
-###Version v0.1.0 - Proof of Concept
+## Version v0.0.0
+### Version v0.1.0 - Proof of Concept
 First minor release of the PAVE application, as a proof of concept. 
 
 **Key features**
@@ -12,7 +12,7 @@ First minor release of the PAVE application, as a proof of concept.
 - Documentation to allow for development from multiple collaborators.
 - Host demo-version of PAVE COVID-mapping at davehenryjones.github.io/pave
 
-####Version v0.1.1 - Figures
+#### Version v0.1.1 - Figures
 This version adds in the ability to hover over points on the map and display a pop-out quote bubble displaying figures the nodes represent.
 
 **Key Features**
@@ -20,7 +20,7 @@ This version adds in the ability to hover over points on the map and display a p
 - Colour scheme improvements
 - Usage/capacity figures display on hover
 
-##Version v1.0.0
+## Version v1.0.0
 First major release of the PAVE application, for use in capacity planning for health services. 
 
 **Key features**
@@ -30,7 +30,7 @@ First major release of the PAVE application, for use in capacity planning for he
     - Integration with health services data structures
 - Timeline shows historic capacity & usage data. 
 
-###Version v1.1.0
+### Version v1.1.0
 First minor update to PAVE for forecasting.
 
 **Key Features** 
