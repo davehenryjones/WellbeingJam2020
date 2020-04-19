@@ -31,10 +31,10 @@ First major release of the PAVE application, for use in capacity planning for he
 - Timeline shows historic capacity & usage data. 
 
 ### Version v1.1.0
-First minor update to PAVE for forecasting.
+First minor update to PAVE for UI fixes.
 
 **Key Features** 
-- Back-end generates forcasts based on historic data.
-- Forecasts projected onto timeline view, to ease capacity planning
+- Data schema and example data created. Available for download from the site
+- UI updated to include a key and more useful information for the user
 
 
