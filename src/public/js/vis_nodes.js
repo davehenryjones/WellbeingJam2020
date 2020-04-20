@@ -26,13 +26,17 @@ export function load_vis_nodes(svg, services_nodes) {
         radius: services_nodes.appointments[i] / 20
     }).addTo(svg);
 
+
     // Create string from metadata
     var metadata_string = "";
     for (let j = 0; j < services_nodes.metadata[i].length; j++) {
-      metadata_string = metadata_string + "<br> + "
+      metadata_string = metadata_string + "<br>   + "
         + services_nodes.metadata[i][j][0] + ": "
         + services_nodes.metadata[i][j][1];
     };
+
+    // Create metadata html for treeview-animated
+    // var metadata_html = "<div class=\"treeview-animated w-20 border mx-4 my-4\"><hr><ul class=\"treeview-animated-list mb-3\"><li class=\"treeview-animated-items\"><a class =\"closed\"><i class=\"fas fa-angle-right\"></i><span>Metadata</span></a><ul class = \"nested\">" + metadata_string + "</ul></li></ul></div>";
 
     // Add extra information popup
     circle_usage.on('mouseover', function (event) {
@@ -42,10 +46,10 @@ export function load_vis_nodes(svg, services_nodes) {
           + '<br><b>Name:</b> ' + services_nodes.name[i]
           + '<br><b>Appointments:</b> ' + services_nodes.appointments[i]
           + '<br><b>Capacity:</b> ' + services_nodes.capacity[i]
-          + '<br><b>Metadata:</b> ' + metadata_string)
+          + '<hr><b>Metadata:</b> ' + metadata_string)
        .openOn(svg);
-      });
+    });
+  };
 
-    };
   return;
 };
