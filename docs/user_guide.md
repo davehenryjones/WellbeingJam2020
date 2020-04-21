@@ -29,6 +29,6 @@ Here us an example document to help make things clearer: [20200430.csv](https://
 
 - `20200430.csv` is the filename reperesenting the date 30/4/2020 or 30th April 2020.
 -  `location`, `name`, `appointments` & `capacity` are the required column headings but may appear in any order in the file.
-- `metadata_1` & `metadata_2` are any extra information you may have about the service. You can have as many of these extra columns as you want and they can be named anything.  
+- `moderate_cases` & `severe_cases` are any extra information you may have about the service. You can have as many of these extra columns as you want and they can be named anything.  
 
 > NOTE Fields within your '.csv' may not include commas. For example, if you have a name such as 'North Bristol NHS Trust, Bristol' this would need to be changed to 'North Bristol NHS Trust Bristol' or just 'North Bristol NHS Trust'.
