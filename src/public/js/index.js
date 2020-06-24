@@ -33,8 +33,9 @@ window.onload = function() {
 
 
     // Load Data Vis from data
-    services_nodes = load_data_from_default();
-    setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]); document.getElementById("datadate").innerHTML = services_nodes[0].date;}, 3000);
+    //services_nodes = load_data_from_default();
+    //setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]); document.getElementById("datadate").innerHTML = services_nodes[0].date;}, 3000);
+    setTimeout(function() {load_vis_edges(my_map);}, 3000);
 };
 
 // Load all data from csv files
