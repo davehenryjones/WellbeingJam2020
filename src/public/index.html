@@ -7,10 +7,16 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <link rel="stylesheet" href="./css/index.css"/>
     <script type = "text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
     <script type = "text/javascript" src = "https://d3js.org/d3-dsv.v1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+  crossorigin=""></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="module" language = "javascript" src= "js/index.js"> </script>
   </head>
 
   <body style="height: 100%, width=100%">
@@ -28,7 +34,7 @@
       <p>For more information about PAVE or to contact us about potential other implementations of our application head to <a href="http://www.pave-health.org" target="_blank">pave-health.org</a></p>
       <p style="font-weight: bold;">Use the button below to upload historic data</p>
 
-      <input type="file" id="dataset_upload" accept=".csv" multiple hidden="hidden"/>
+      <input type="file" id="dataset_upload" accept=".csv" multiple-hidden="hidden"/>
       <button class="w3-button w3-ripple w3-light-grey w3-round-large button" id="custom-button">Upload File</button>
       <span id="custom-text" class="button">No file chosen, yet.</span>
 
@@ -55,7 +61,7 @@
 
       <p style="font-weight: bold">Use this slider to track through bed capacity/occupancy history.</p>
       <div class="slidecontainer">
-        <input type="range" min="0" max="2" value="0" class="slider" id="daypicker">
+        <input type="range" min="0" max="2" value="0" class="slider" id="daypicker"/>
       </div>
       <p style="font-weight: bold" id="datadate">Date</p>
       <p class="nb">The colours used in this application are designed to be high contrast and accessible to those with colourblindness.</p>
@@ -65,12 +71,5 @@
   <div class="w3-container w3-light-grey" style="height: 10vh"></div>
 
   <!--<div class="clearfix"></div>-->
-
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-  crossorigin=""></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="module" language = "javascript" src= "js/index.js"> </script>
   </body>
 </html>

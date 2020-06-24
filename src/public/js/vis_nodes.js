@@ -28,27 +28,41 @@ export function load_vis_nodes(svg, services_nodes) {
 
 
     // Create string from metadata
-    var metadata_string = '<br>+ Location: ' + services_nodes.location[i];
+    var metadata_string = '<div id="metadata" style="display:block">+ Location: ' + services_nodes.location[i];
     for (let j = 0; j < services_nodes.metadata[i].length; j++) {
-      metadata_string = metadata_string + "<br>   + "
+      metadata_string = metadata_string + "<br></br>   + "
         + services_nodes.metadata[i][j][0] + ": "
         + services_nodes.metadata[i][j][1];
     };
-
-    // Create metadata html for treeview-animated
-    // var metadata_html = "<div class=\"treeview-animated w-20 border mx-4 my-4\"><hr><ul class=\"treeview-animated-list mb-3\"><li class=\"treeview-animated-items\"><a class =\"closed\"><i class=\"fas fa-angle-right\"></i><span>Metadata</span></a><ul class = \"nested\">" + metadata_string + "</ul></li></ul></div>";
+    metadata_string = metadata_string + "</div>";
 
     // Add extra information popup
     circle_usage.on('mouseover', function (event) {
       var info_popup = L.popup()
        .setLatLng(event.latlng)
-       .setContent('<br><b>Name:</b> ' + services_nodes.name[i]
-          + '<br><b>Appointments:</b> ' + services_nodes.appointments[i]
-          + '<br><b>Capacity:</b> ' + services_nodes.capacity[i]
-          + '<br><b>Other information:</b> ' + metadata_string)
+       .setContent('<br></br><b>Name:</b> ' + services_nodes.name[i]
+          + '<br></br><b>Appointments:</b> ' + services_nodes.appointments[i]
+          + '<br></br><b>Capacity:</b> ' + services_nodes.capacity[i]
+          + '<br></br><br></br><div id="meta_click"><b>Extra Information:</b></div>' + metadata_string)
        .openOn(svg);
+
+       // document.getElementById("meta_click").addEventListener('click', toggle_meta);
     });
+
   };
 
   return;
 };
+
+function toggle_meta() {
+  var list = document.getElementById("metadata");
+  var head = document.getElementById("meta_click");
+  console.log(list.style.display);
+  if (list.style.display == "none"){
+      list.style.display = "block";
+      head.innerHTML = "<b>see less...</b>";
+  } else {
+      list.style.display = "none";
+      head.innerHTML = "<b>see more...</b>";
+  }
+}

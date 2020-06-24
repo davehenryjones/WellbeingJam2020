@@ -28,7 +28,9 @@ window.onload = function() {
       zoomOffset: -1,
       accessToken: 'pk.eyJ1IjoicGF2ZS1oZWFsdGgiLCJhIjoiY2s3dWQxZHUzMTZlYTNncXR1OHB2NTBkYiJ9.7mf8ut1FJpHCFzcsy7qiDA'
     });
-    earth.addTo(mymap);
+    //earth.addTo(mymap); // ToDo fix error on this line with Express Server
+
+
 
     // Load Data Vis from data
     services_nodes = load_data_from_default();
