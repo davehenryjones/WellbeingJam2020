@@ -1,3 +1,4 @@
+
 // Load data from csv to create nodes
 export function load_vis_nodes(svg, grid_ref) {
   var services_location = [];
