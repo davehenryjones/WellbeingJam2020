@@ -1,16 +1,33 @@
-# WellbeingJam2020
+# PAVE
 
-A visualisation to map the flow of patients between different health services in Bristol. Visit https://davehenryjones.github.io/pave/ to see it in action.
+#### PATIENT ACCESS VISUALISATION ENGINE
+A visualisation tool to illustrate how people act with different healthcare services in Bristol. PAVE Capacity displays a map of capacity of a service against demand. PAVE Flow maps how people are referred between different healthcare services. Follow the links to see it in action: [PAVE Capacity Visualisation](https://davehenryjones.github.io/pave/) | [PAVE Flow Visualisation](https://davehenryjones.github.io/patient-flow/)
 
-> NOTE: We have updated the use case to reflect the current Covid-19 pandemic. We are now focusing on mapping capacity vs admissions in such services.
+>NOTE: The data used in this demo is purely for illustrative purposes and does not reflect real healthcare data.
 
->NOTE: The data used is purely for illustrative purposes and does not currently reflect real values for capacity and admission data.
+### Running this code
 
-#### Latest Release - v0.1.0
+Run your own local server such as Node or Apache2 with the root directory as `/src/public`.
+
+With a standard configuration
+- PAVE Capacity will be located at `http://localhost:8080/capacity-modelling/`
+- PAVE Flow will be located at `http://localhost:8080/patient-flow/`
+
+>NOTE: Other folders and files are the in-development website surrounding the different visualisations. They are not needed to view the visualisations.
+
+### Latest Release - v0.2.0
 
   - Displays local services in correct position on map
-  - Size of red circle is proportional to the number of patients who used the service
-  - Size of blue circle is proportional to a dummy value for the capacity of that service
+  - PAVE Capacity displays capacity and demand for different services.
+  - PAVE Capacity can display data across several days.
+  - PAVE Flow displays referrals across healthcare services.
+  - PAVE Flow can be customised and filtered using the side menu.
+  - PAVE Flow uses URL encoding so views of the visualisation can be saved by the user.
 
-> ![Zoomed Out Map](docs/resources/map3.png)
+> PAVE Capacity
+> ![PAVE Capacity visualisation](docs/resources/capacity.png)
 > Dummy capacity vs admission data (for illustrative purposes only)
+
+> PAVE Flow
+> ![PAVE Flow visualisation](docs/resources/flow.png)
+> Dummy referral data (for illustrative purposes only)
