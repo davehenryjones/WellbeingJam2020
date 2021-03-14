@@ -1,0 +1,29 @@
+.text-center button {
+  margin-right: 3vw;
+  border-width: medium;
+  border-radius: 3vw;
+}
+
+#planning-the-path {
+  background-color: #e85441;
+  margin: 10px;
+  padding-left: 20vw;
+  padding-right: 20vw;
+  padding-bottom: 20px;
+  color: white;
+}
+
+#planning-the-path h2 {
+  text-decoration: underline;
+  text-underline-offset: 30px;
+}
+
+.covimages {
+  width: 3vw;
+  height: 3vw;
+  left: 50%;
+  right: 50%;
+  top: 50%;
+  bottom: 50%;
+  margin-top: 25px;
+}

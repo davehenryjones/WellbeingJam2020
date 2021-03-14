@@ -1,0 +1,27 @@
+.team img {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  display: block;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+
+.team p {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+#dave {
+  background-color: #f0f0f0;
+}
+
+#ellie {
+  background-color: #ffdc73;
+}
+
+#ben {
+  background-color: #599b8d;
+}
