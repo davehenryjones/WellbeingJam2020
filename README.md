@@ -25,9 +25,9 @@ With a standard configuration
   - PAVE Flow uses URL encoding so views of the visualisation can be saved by the user.
 
 > PAVE Capacity
-> ![PAVE Capacity visualisation](docs/resources/capacity.png)
+> ![PAVE Capacity visualisation](/docs/resources/capacity.png)
 > Dummy capacity vs admission data (for illustrative purposes only)
 
 > PAVE Flow
-> ![PAVE Flow visualisation](docs/resources/flow.png)
+> ![PAVE Flow visualisation](/docs/resources/flow.png)
 > Dummy referral data (for illustrative purposes only)
