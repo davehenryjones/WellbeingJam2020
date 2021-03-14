@@ -25,8 +25,8 @@ window.onload = async function() {
   await load_map(); // Async load map
   design = await new Design(); //Async load style
   load_default_nodes() // Async load nodes
-  setTimeout( function() {load_default_edges(nodes);}, 5000); // Async load edges
-  setTimeout( function() {load_vis(design, nodes, edges, map);}, 8000); // Async load vis
+  setTimeout( function() {load_default_edges(nodes);}, 15000); // Async load edges
+  setTimeout( function() {load_vis(design, nodes, edges, map); console.log(nodes.length); console.log(edges.length)}, 30000); // Async load vis
   setTimeout( function() {
     // Parse any params
     const params = new URLSearchParams(window.location.search);
@@ -123,11 +123,16 @@ class Edge {
 async function load_default_edges(nodes) {
   edges = [];
 
-  await d3.csv("/resources/referrals_list_combined.csv", function(data) {
+  await d3.csv("/dispatch-flow/resources/referrals.csv", function(data) {
     for (let i = 0; i < data.length; i++) {
-      let start_node = nodes.filter(node => node.location == data[i].source)[0];
-      let end_node = nodes.filter(node => node.location == data[i].dest)[0];
-      let edge = new Edge (start_node, end_node, {"all" : data[i].referrals});
+      let start_node = nodes.filter(node => node.name == "111")[0];
+      let end_node = nodes.filter(node => node.name == data[i].org_Name)[0];
+      if (end_node == null) {
+        continue;
+      }
+
+      nodes.filter(node => node.name == data[i].org_Name)[0].weights.all += 1;
+      let edge = new Edge (start_node, end_node, {"all" : 1});
       edges.push(edge);
     };
   });
@@ -169,15 +174,17 @@ async function get_coords(api_address) {
 // Load Default Nodes
 async function load_default_nodes() {
   nodes = [];
+  let node_origin = new Node(51.547567, -2.765965, "No location", "111", {"all": 2000});
+  nodes.push(node_origin);
 
-  d3.csv("/resources/services_list.csv", async function(data) {
+  d3.csv("/dispatch-flow/resources/services_postcodes_2.csv", async function(data) {
     for (let i = 0; i < data.length; i++) {
       // Get map co-ordinates from postcode
       var api_address = ("https://api.postcodes.io/postcodes/").concat(data[i].location.replace(/\s/g, ''));
       var api_data = await get_coords(api_address);
       let x = api_data.result.latitude;
       let y = api_data.result.longitude;
-      let node = new Node(x, y, data[i].location, data[i].name, {"all" : data[i].appointments})
+      let node = new Node(x, y, data[i].location, data[i].name, {"all" : 1});
       nodes.push(node);
     };
   });
@@ -389,8 +396,8 @@ function true_url_encoding(param_key, param_val) {
   } else {
     const param_old_val = new URLSearchParams(window.location.search).get(param_key);
     const old_p = param_key + "=" + param_old_val + "\&";
-    console.log(old_p);
-    console.log(window.location.href.replace(old_p, "NEW_P=1&"));
+    //console.log(old_p);
+    //console.log(window.location.href.replace(old_p, "NEW_P=1&"));
     const new_p = param_key + "=" + param_val + "&";
     window.history.pushState({id : "100"}, "Update" + param_val, window.location.href.replace(old_p, new_p));
   }
