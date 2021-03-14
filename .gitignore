@@ -1,3 +1,6 @@
 .idea
 .DS_Store
-src/server_side/
+src/server/
+src/server/secrets/
+src/server/node_modules/
+src/public/dispatch-flow/
