@@ -4,11 +4,11 @@ import {load_vis_nodes} from './vis_nodes.js';
 import {load_data_from_default, load_data_from_user} from './data_input_handler.js';
 
 // Global variables
-var slider = document.getElementById("daypicker");
-var dataset_upload = document.getElementById("dataset_upload");
-var mymap;
-var earth;
-var services_nodes;
+let slider = document.getElementById("daypicker");
+let dataset_upload = document.getElementById("dataset_upload");
+let mymap;
+let earth;
+let services_nodes;
 
 // Manage workflow
 window.onload = function() {
@@ -31,23 +31,24 @@ window.onload = function() {
 
 
     // Load Data Vis from data
+    // ToDo Implement async loading
     services_nodes = load_data_from_default();
     setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]); document.getElementById("datadate").innerHTML = services_nodes[0].date;}, 3000);
-    earth.addTo(mymap); // ToDo fix error on this line with Express Server
+    earth.addTo(mymap);
 };
 
 // Load all data from csv files
 async function load_csv_files() {
-  var services = [];
+  let services = [];
   slider.value = 0;
   slider.max = dataset_upload.files.length - 1;
 
   for (let i = 0; i < dataset_upload.files.length; i++) {
-    var reader = new FileReader();
-    var file = dataset_upload.files[i];
+    let reader = new FileReader();
+    let file = dataset_upload.files[i];
 
     reader.onload = async function() {
-      var service = await load_data_from_user(reader.result, dataset_upload.files[i].name.replace(/\.csv/g, ''));
+      let service = await load_data_from_user(reader.result, dataset_upload.files[i].name.replace(/\.csv/g, ''));
       services.push(service);
     };
     reader.onerror = error => reject(error)
@@ -75,6 +76,7 @@ dataset_upload.onchange = async function () {
   await load_csv_files();
 
   // Redraw map
+  // ToDo Implement async loading
   mymap.eachLayer(function (layer) {
     mymap.removeLayer(layer);
   });

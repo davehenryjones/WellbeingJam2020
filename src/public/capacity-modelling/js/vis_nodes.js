@@ -9,7 +9,7 @@ export function load_vis_nodes(svg, services_nodes) {
     if (typeof services_nodes.capacity[i] == 'undefined') {continue;};
 
     // Draw capacity
-    var circle_capacity = L.circle([services_nodes.x[i], services_nodes.y[i]], {
+    let circle_capacity = L.circle([services_nodes.x[i], services_nodes.y[i]], {
         color: 'black',
         weight: '0.5',
         fillColor: '#1e88e5',
@@ -18,7 +18,7 @@ export function load_vis_nodes(svg, services_nodes) {
     }).addTo(svg);
 
     // Draw node
-    var circle_usage = L.circle([services_nodes.x[i], services_nodes.y[i]], {
+    let circle_usage = L.circle([services_nodes.x[i], services_nodes.y[i]], {
         color: 'black',
         weight: '0.5',
         fillColor: '#ffc107',
@@ -28,7 +28,7 @@ export function load_vis_nodes(svg, services_nodes) {
 
 
     // Create string from metadata
-    var metadata_string = '<div id="metadata" style="display:block">+ Location: ' + services_nodes.location[i];
+    let metadata_string = '<div id="metadata" style="display:block">+ Location: ' + services_nodes.location[i];
     for (let j = 0; j < services_nodes.metadata[i].length; j++) {
       metadata_string = metadata_string + "<br></br>   + "
         + services_nodes.metadata[i][j][0] + ": "
@@ -38,25 +38,22 @@ export function load_vis_nodes(svg, services_nodes) {
 
     // Add extra information popup
     circle_usage.on('mouseover', function (event) {
-      var info_popup = L.popup()
+      let info_popup = L.popup()
        .setLatLng(event.latlng)
        .setContent('<br></br><b>Name:</b> ' + services_nodes.name[i]
           + '<br></br><b>Appointments:</b> ' + services_nodes.appointments[i]
           + '<br></br><b>Capacity:</b> ' + services_nodes.capacity[i]
           + '<br></br><br></br><div id="meta_click"><b>Extra Information:</b></div>' + metadata_string)
        .openOn(svg);
-
-       // document.getElementById("meta_click").addEventListener('click', toggle_meta);
     });
-
   };
 
   return;
 };
 
 function toggle_meta() {
-  var list = document.getElementById("metadata");
-  var head = document.getElementById("meta_click");
+  let list = document.getElementById("metadata");
+  let head = document.getElementById("meta_click");
   console.log(list.style.display);
   if (list.style.display == "none"){
       list.style.display = "block";

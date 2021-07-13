@@ -14,18 +14,18 @@ export function load_data_from_user(text_snippet, data_date) {
 
 // Load date from specified file
 function load_data_from_file(data_src, data_date) {
-  var services_location = [];
-  var services_x = [];
-  var services_y = [];
-  var services_name = [];
-  var services_appointments = [];
-  var services_capacity = [];
-  var services_metadata = [];
+  let services_location = [];
+  let services_x = [];
+  let services_y = [];
+  let services_name = [];
+  let services_appointments = [];
+  let services_capacity = [];
+  let services_metadata = [];
 
   d3.csv(data_src, async function(data) {
 
     // Get column headers
-    var extra_columns = Object.keys(data[0]);
+    let extra_columns = Object.keys(data[0]);
 
     // Remove colleted columns
     extra_columns.splice(extra_columns.indexOf("location",),1);
@@ -41,15 +41,15 @@ function load_data_from_file(data_src, data_date) {
       services_capacity.push(data[i].capacity);
 
       // metadata saving
-      var extra_data = [];
+      let extra_data = [];
       for (let j = 0; j < extra_columns.length; j++) {
         extra_data.push([extra_columns[j], data[i][extra_columns[j]]]);
       };
       services_metadata.push(extra_data);
 
       // Get co-ordinates
-      var api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
-      var api_data = await get_coords(api_address);
+      let api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
+      let api_data = await get_coords(api_address);
       services_x.push(api_data.result.latitude);
       services_y.push(api_data.result.longitude);
     };
@@ -76,18 +76,18 @@ async function get_coords(api_address) {
 // TODO
 // Load date from specified file
 async function load_data_from_text(text_snippet, data_date) {
-  var services_location = [];
-  var services_x = [];
-  var services_y = [];
-  var services_name = [];
-  var services_appointments = [];
-  var services_capacity = [];
-  var services_metadata = [];
+  let services_location = [];
+  let services_x = [];
+  let services_y = [];
+  let services_name = [];
+  let services_appointments = [];
+  let services_capacity = [];
+  let services_metadata = [];
 
-  var data = d3.csvParse(text_snippet);
+  let data = d3.csvParse(text_snippet);
 
   // Get column headers
-  var extra_columns = Object.keys(data[0]);
+  let extra_columns = Object.keys(data[0]);
 
   // Remove colleted columns
   extra_columns.splice(extra_columns.indexOf("location",),1);
@@ -103,15 +103,15 @@ async function load_data_from_text(text_snippet, data_date) {
     services_capacity.push(data[i].capacity);
 
     // metadata saving
-    var extra_data = [];
+    let extra_data = [];
     for (let j = 0; j < extra_columns.length; j++) {
       extra_data.push([extra_columns[j], data[i][extra_columns[j]]]);
     };
     services_metadata.push(extra_data);
 
     // Get co-ordinates
-    var api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
-    var api_data = await get_coords(api_address);
+    let api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
+    let api_data = await get_coords(api_address);
     services_x.push(api_data.result.latitude);
     services_y.push(api_data.result.longitude);
   };

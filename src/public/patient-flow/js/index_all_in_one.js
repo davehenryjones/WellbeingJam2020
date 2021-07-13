@@ -1,49 +1,33 @@
 "use strict";
 
-var design, nodes, edges, map;
-var node_layer, edge_layer, node_label_layer, edge_label_layer;
+let design, nodes = [], edges = [], map;
+let node_layer, edge_layer, node_label_layer, edge_label_layer;
 
 /*  CONTROL FUNCTIONS
 // These functions run when the page loads and control the flow of
 // information to create the vis.
 */
 
-// Load the map from mapbox
-function load_map () {
-  // initialize the map on the "map" div with a given center and zoom
-  map = L.map('mapid', {
-      center: [51.455, -2.599],
-      zoom: 13
-  });
-
-  //Load map of Bristol
-  // TODO Fetch on ServerSide then add to map
-  // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-  //   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  //   maxZoom: 18,
-  //   id: 'mapbox/streets-v11',
-  //   tileSize: 512,
-  //   zoomOffset: -1,
-  //   accessToken: 'pk.eyJ1IjoicGF2ZS1oZWFsdGgiLCJhIjoiY2s3dWQxZHUzMTZlYTNncXR1OHB2NTBkYiJ9.7mf8ut1FJpHCFzcsy7qiDA'
-  // }).addTo(map);
-  return;
-}
-
 // On page laod
 window.onload = async function() {
   create_triggers();
-  await load_map(); // Async load map
-  design = await new Design(); //Async load style
-  load_default_nodes() // Async load nodes
-  setTimeout( function() {load_default_edges(nodes);}, 5000); // Async load edges
-  setTimeout( function() {load_vis(design, nodes, edges, map);}, 8000); // Async load vis
-  setTimeout( function() {
-    // Parse any params
+  map = L.map('mapid', {
+      center: [51.455, -2.599],
+      zoom: 13
+    });
+  design = new Design(); // load style
+
+  // Load nodes, edges and URL parameters
+  await load_default_nodes().then(async () => {
+    await load_default_edges();
+  }).then(async () => {
+    await load_vis(design, nodes, edges, map);
+  }).then( async () => {
     const params = new URLSearchParams(window.location.search);
     parse_params(params);
-  }, 11000);
+  });
 
-  // TODO Delete this
+  // Load map skin
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
@@ -58,48 +42,48 @@ window.onload = async function() {
 function parse_params(params) {
   if (params.has('usage_labels')) {
     document.getElementById("usage_checkbox").checked = true;
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', false, true);
     document.getElementById("usage_checkbox").dispatchEvent(event);
   }
   if (params.has('referrals_labels')) {
     document.getElementById("referrals_checkbox").checked = true;
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', false, true);
     document.getElementById("referrals_checkbox").dispatchEvent(event);
   }
   if (params.has('min_usage')) {
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', document.getElementById("node_weight_filter").value,  params.get('min_usage'));
     document.getElementById("node_weight_filter").value = params.get('min_usage');
     document.getElementById("node_weight_filter").dispatchEvent(event);
   }
   if (params.has('min_referral')) {
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', document.getElementById("edge_weight_filter").value, params.get('min_referral'));
     document.getElementById("edge_weight_filter").value = params.get('min_referral');
     document.getElementById("edge_weight_filter").dispatchEvent(event);
   }
   if (params.has('usage_scaling')) {
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', document.getElementById("usage_scaling").value, params.get('usage_scaling'));
     document.getElementById("usage_scaling").value = params.get('usage_scaling');
     document.getElementById("usage_scaling").dispatchEvent(event);
   }
   if (params.has('edge_scaling')) {
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', document.getElementById("edge_scaling").value, params.get('edge_scaling'));
     document.getElementById("edge_scaling").value = params.get('edge_scaling');
     document.getElementById("edge_scaling").dispatchEvent(event);
   }
   if (params.has('edge_colour')) {
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', document.getElementById("edge_colour").value, params.get('edge_colour'));
     document.getElementById("edge_colour").value = params.get('edge_colour');
     document.getElementById("edge_colour").dispatchEvent(event);
   }
   if (params.has('node_colour')) {
-    var event = document.createEvent("HTMLEvents");
+    let event = document.createEvent("HTMLEvents");
     event.initEvent('change', document.getElementById("node_colour").value, params.get('node_colour'));
     document.getElementById("node_colour").value = params.get('node_colour');
     document.getElementById("node_colour").dispatchEvent(event);
@@ -130,19 +114,18 @@ class Edge {
 }
 
 // Load Default Edges
-async function load_default_edges(nodes) {
-  edges = [];
-
-  await d3.csv("/resources/referrals_list_combined.csv", function(data) {
-    for (let i = 0; i < data.length; i++) {
-      let start_node = nodes.filter(node => node.location == data[i].source)[0];
-      let end_node = nodes.filter(node => node.location == data[i].dest)[0];
-      let edge = new Edge (start_node, end_node, {"all" : data[i].referrals});
-      edges.push(edge);
-    };
+const load_default_edges = async ()=> {
+  return new Promise ((resolve, reject) => {
+    d3.csv("/resources/referrals_list_combined.csv", function(data) {
+      for (let i = 0; i < data.length; i++) {
+        let start_node = nodes.filter(node => node.location == data[i].source)[0];
+        let end_node = nodes.filter(node => node.location == data[i].dest)[0];
+        let edge = new Edge (start_node, end_node, {"all" : data[i].referrals});
+        edges.push(edge);
+      };
+      resolve();
+    });
   });
-
-  return;
 }
 
 /*  NODES Functions
@@ -176,25 +159,23 @@ async function get_coords(api_address) {
   return data;
 };
 
-// Load Default Nodes
-async function load_default_nodes() {
-  nodes = [];
-
-  d3.csv("/resources/services_list.csv", async function(data) {
-    for (let i = 0; i < data.length; i++) {
-      // Get map co-ordinates from postcode
-      var api_address = ("https://api.postcodes.io/postcodes/").concat(data[i].location.replace(/\s/g, ''));
-      var api_data = await get_coords(api_address);
-      let x = api_data.result.latitude;
-      let y = api_data.result.longitude;
-      let node = new Node(x, y, data[i].location, data[i].name, {"all" : data[i].appointments})
-      nodes.push(node);
-    };
+// Load default nodes
+const load_default_nodes = async ()=> {
+  return new Promise ((resolve, reject) => {
+    d3.csv("/resources/services_list.csv", async function(data) {
+      for (let i = 0; i < data.length; i++) {
+        // Get map co-ordinates from postcode
+        let api_address = ("https://api.postcodes.io/postcodes/").concat(data[i].location.replace(/\s/g, ''));
+        let api_data = await get_coords(api_address);
+        let x = api_data.result.latitude;
+        let y = api_data.result.longitude;
+        let node = new Node(x, y, data[i].location, data[i].name, {"all" : data[i].appointments})
+        nodes.push(node);
+      };
+      resolve();
+    });
   });
-
-  return;
 }
-
 
 /*  MODIFY Functions
 // These functions control the vis filters and design
@@ -220,7 +201,7 @@ function load_vis_nodes(nodes, design, map) {
 
   for (let i = 0; i < nodes.length; i++) {
     // Draw node
-    var c = L.circle([nodes[i].x, nodes[i].y], {
+    let c = L.circle([nodes[i].x, nodes[i].y], {
       color: 'none',
       fillColor: design.colours.nodes,
       fillOpacity: 0.8,
@@ -239,7 +220,7 @@ function load_vis_nodes(nodes, design, map) {
     });
 
     // Create label text
-    var l = L.tooltip({permanent : true});
+    let l = L.tooltip({permanent : true});
     l.setLatLng(new L.LatLng(nodes[i].x, nodes[i].y));
     l.setContent(nodes[i].weights.all);
     node_label_layer.addLayer(l);
@@ -258,7 +239,7 @@ function load_vis_edges(edges, design, map) {
 
   for (let i = 0; i < edges.length; i++) {
     // Draw edge
-    var e = L.polyline([ [edges[i].start_node.x, edges[i].start_node.y], [edges[i].end_node.x, edges[i].end_node.y] ], {
+    let e = L.polyline([ [edges[i].start_node.x, edges[i].start_node.y], [edges[i].end_node.x, edges[i].end_node.y] ], {
       color: design.colours.edges,
       opacity: 0.8,
       weight: edges[i].weights.all * design.edge_scaling
@@ -276,7 +257,7 @@ function load_vis_edges(edges, design, map) {
     });
 
     // Create label text
-    var l = L.tooltip({permanent : true});
+    let l = L.tooltip({permanent : true});
     l.setLatLng(L.latLngBounds(new L.LatLng(edges[i].start_node.x, edges[i].start_node.y),
       new L.LatLng(edges[i].end_node.x, edges[i].end_node.y)).getCenter());
     l.setContent(edges[i].weights.all);
@@ -291,8 +272,8 @@ function load_vis_edges(edges, design, map) {
 
 // Drop down postcodes
 function dropdown_postcodes_init() {
-  var select = document.getElementById("postcode_dropdown");
-  var postcodes_found = [];
+  let select = document.getElementById("postcode_dropdown");
+  let postcodes_found = [];
   for (let i = 0; i < nodes.length; i++) {
     let p = nodes[i].location.split(" ")[0];
     if (!postcodes_found.includes(p)) {
@@ -308,10 +289,10 @@ function dropdown_postcodes_init() {
 
 // Load bounds for node weight filter
 function node_weight_filter_init() {
-  var slider = document.getElementById("node_weight_filter");
+  let slider = document.getElementById("node_weight_filter");
   slider.setAttribute('min', 0);
 
-  var max_weight = 0;
+  let max_weight = 0;
   for (let i = 0; i < nodes.length; i++) {
     if (nodes[i].weights.all > max_weight) {
       max_weight = nodes[i].weights.all;
@@ -326,10 +307,10 @@ function node_weight_filter_init() {
 
 // Load bounds for edge weight filter
 function edge_weight_filter_init() {
-  var slider = document.getElementById("edge_weight_filter");
+  let slider = document.getElementById("edge_weight_filter");
   slider.setAttribute('min', 0);
 
-  var max_weight = 0;
+  let max_weight = 0;
   for (let i = 0; i < edges.length; i++) {
     if (edges[i].weights.all > max_weight) {
       max_weight = edges[i].weights.all;
@@ -344,7 +325,7 @@ function edge_weight_filter_init() {
 
 // Load bounds for node scaling
 function node_scaling_init() {
-  var slider = document.getElementById("node_scaling");
+  let slider = document.getElementById("node_scaling");
   slider.setAttribute('min', 0.01);
   slider.setAttribute('step', 0.01);
   slider.setAttribute('max', 1);
@@ -354,7 +335,7 @@ function node_scaling_init() {
 
 // Load bounds for edge scaling
 function edge_scaling_init() {
-  var slider = document.getElementById("edge_scaling");
+  let slider = document.getElementById("edge_scaling");
   slider.setAttribute('min', 0.002);
   slider.setAttribute('step', 0.0002);
   slider.setAttribute('max', 0.01);
@@ -399,8 +380,6 @@ function true_url_encoding(param_key, param_val) {
   } else {
     const param_old_val = new URLSearchParams(window.location.search).get(param_key);
     const old_p = param_key + "=" + param_old_val + "\&";
-    console.log(old_p);
-    console.log(window.location.href.replace(old_p, "NEW_P=1&"));
     const new_p = param_key + "=" + param_val + "&";
     window.history.pushState({id : "100"}, "Update" + param_val, window.location.href.replace(old_p, new_p));
   }
