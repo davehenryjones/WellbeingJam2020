@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+  <head>
+    <meta charset = "UTF-8"/>
+    <title>PAVE: Dispatch Flow</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+    <link rel="stylesheet" href="/demo.css"/>
+    <link rel="stylesheet" href="./loader.css"/>
+
+    <script type = "text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    <script type = "text/javascript" src = "https://d3js.org/d3-dsv.v1.min.js"></script>
+    <script type = "text/javascript" src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+     crossorigin=""></script>
+    <script type = "text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
+    <script type = "text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script language = "javascript" src= "./js/index_all_in_one.js" defer="defer"> </script>
+    <script language = "javascript" src= "./js/style.js" defer="defer"> </script>
+  </head>
+
+  <body style="height: 100%, width=100%">
+
+  <div class="w3-container w3-light-grey" style="height: 5vh"></div>
+  <div class="w3-cell-row" style="height: 90vh">
+    <div class="w3-container w3-cell w3-light-grey" style="width: 5vw"></div>
+    <div id="mapid" class="w3-container w3-green w3-cell" style="width: 60vw"></div>
+
+    <div class="w3-container w3-cell  centre" style="width: 30vw">
+      <h1>PAVE</h1>
+      <h2>Dispatch Flow</h2>
+
+      <div id="page_loading">
+        <br/><br/>
+        <div class="loader" id="loader"></div>
+        <h3>Loading visualisation. <br/>This will take a moment.</h3>
+        <br/>
+        <h4 id="loading_state">1/3: Creating service nodes.</h4>
+      </div>
+
+      <div id="page_loaded">
+        <button type="button" id="controls_metrics">Show metrics</button>
+
+        <br/><br/><h3>Time Controls</h3>
+        <input type="checkbox" id="all_time_checkbox"/>
+        <label for="all_time_checkbox" checked="True">Display all time data</label><br/>
+        <label for="time_slider">Select Time:</label>
+        <input type="range" min="1" max="100" value="50" class="slider" id="time_slider"/><br/>
+        <input type="checkbox" id="play_checkbox"/>
+        <label for="play_checkbox">Play/ pause animation</label><br/>
+        <label id="play_date">xx/xx/xxxx Hour: xx</label>
+
+        <div id="controls_pane">
+          <br/><br/><br/><h3>Design Controls</h3>
+          <label for="node_scaling">Usage Scaling:</label>
+          <input type="range" min="1" max="100" value="50" class="slider" id="node_scaling"/><br/>
+          <label for="edge_scaling">Edge Scaling:</label>
+          <input type="range" min="1" max="100" value="50" class="slider" id="edge_scaling"/><br/>
+          <label for="node_colour">Node Colour as Hex Value: #</label>
+          <input type="text" id="node_colour"/><br/>
+          <label for="edge_colour">Edge Colour as Hex Value: #</label>
+          <input type="text" id="edge_colour"/>
+
+          <br/><br/><br/><h3>Data Filters</h3>
+          <!-- HIDDEN FOR DEMO
+          <div id="min_ref">↓ 0 ↓</div><label for="node_weight_filter"> Min referrals:</label>
+          <input type="range" min="1" max="100" value="1" class="slider" id="node_weight_filter"/><br/>
+          -->
+
+          <!-- Postcode filter -->
+          <label for="show_postcode_dropdown">Postcodes: Show</label>
+          <select id="show_postcode_dropdown"></select>
+          <label for="hide_postcode_dropdown"> | Hide</label>
+          <select id="hide_postcode_dropdown"></select><br/>
+          <!-- Service Type filter -->
+          <label for="show_service_dropdown">Service Type: Show</label>
+          <select id="show_service_dropdown"></select>
+          <label for="hide_service_dropdown"> | Hide</label>
+          <select id="hide_service_dropdown"></select><br/>
+          <!-- Dispo Broad Group filter -->
+          <label for="show_dispo_broad_dropdown">Dispo Broad Group: Show</label>
+          <select id="show_dispo_broad_dropdown"></select>
+          <label for="hide_dispo_broad_dropdown"> | Hide</label>
+          <select id="hide_dispo_broad_dropdown"></select><br/>
+          <!-- Dispo Group filter -->
+          <label for="show_dispo_dropdown">Dispo Group: Show</label>
+          <select id="show_dispo_dropdown"></select>
+          <label for="hide_dispo_dropdown"> | Hide</label>
+          <select id="hide_dispo_dropdown"></select><br/>
+          <!-- SD Description filter -->
+          <label for="show_sd_dropdown">SD Description: Show</label>
+          <select id="show_sd_dropdown"></select>
+          <label for="hide_sd_dropdown"> | Hide</label>
+          <select id="hide_sd_dropdown"></select><br/>
+          <!-- SG Description filter -->
+          <label for="show_sg_dropdown">SG Description: Show</label>
+          <select id="show_sg_dropdown"></select>
+          <label for="hide_sg_dropdown"> | Hide</label>
+          <select id="hide_sg_dropdown"></select><br/>
+        </div>
+
+        <div id="metrics_pane">
+          <br/><h3>Metrics</h3>
+          <label for="chart_data_dropdown">Select data: </label>
+          <select id="chart_data_dropdown">
+            <option>Service Type</option>
+            <option>Dispo Broad Group</option>
+            <option>Dispo Group</option>
+            <option>SD Description</option>
+            <option>SG Description</option>
+          </select><br/>
+
+          <h4>Referrals visible on the map</h4>
+          <div id="bar_chart_div"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="15vh" id="bar_chart"></svg></div>
+          <div id="bar_chart_legend_div"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="15vh" id="bar_chart_legend"></svg></div>
+          <h4>Referrals across all available data</h4>
+          <div id="line_graph_div"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="15vh" id="line_graph"></svg></div>
+          <div id="line_graph_legend_div"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="15vh" id="line_graph_legend"></svg></div>
+        </div>
+
+        <hr class="hr2" style="opacity: 0"/>
+      </div>
+    </div>
+    <div class="w3-container w3-cell w3-light-grey" style="width: 5vw"></div>
+  </div>
+  <div class="w3-container w3-light-grey" style="height: 5vh"></div>
+  </body>
+</html>
